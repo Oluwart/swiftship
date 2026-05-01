@@ -16,9 +16,9 @@ app.use(express.json());
 // =======================
 // 🟢 CONNECT MONGODB
 // =======================
-mongoose.connect("mongodb://127.0.0.1:27017/swiftship")
-.then(() => console.log("MongoDB Connected ✅"))
-.catch(err => console.log(err));
+mongoose.connect("https://swiftship-backend-a1uy.onrender.com")
+  .then(() => console.log("MongoDB Connected ✅"))
+  .catch(err => console.log(err));
 
 // =======================
 // 📦 MODEL
