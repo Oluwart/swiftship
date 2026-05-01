@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SwiftShip Logistics</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:'Poppins', sans-serif;
+}
+
+body{
+  background:#f4f6f9;
+}
+
+/* NAVBAR */
+header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:20px 40px;
+  background:linear-gradient(90deg,#0a2540,#1e3c72);
+  color:white;
+}
+
+nav a{
+  color:white;
+  margin-left:25px;
+  text-decoration:none;
+  font-weight:500;
+  position:relative;
+}
+
+nav a::after{
+  content:"";
+  position:absolute;
+  left:0;
+  bottom:-5px;
+  width:0%;
+  height:2px;
+  background:#ff6600;
+  transition:0.3s;
+}
+
+nav a:hover::after{
+  width:100%;
+}
+
+/* HERO */
+.hero{
+  height:90vh;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  text-align:center;
+  color:white;
+  background:
+    linear-gradient(rgba(10,37,64,0.8), rgba(10,37,64,0.8)),
+    url('https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d');
+  background-size:cover;
+  background-position:center;
+}
+
+.hero h1{
+  font-size:3.5rem;
+  margin-bottom:10px;
+}
+
+.hero p{
+  font-size:1.2rem;
+  margin-bottom:25px;
+}
+
+.hero button{
+  padding:14px 25px;
+  background:#ff6600;
+  border:none;
+  color:white;
+  font-size:16px;
+  border-radius:30px;
+  cursor:pointer;
+  transition:0.3s;
+}
+
+.hero button:hover{
+  background:#ff8533;
+}
+
+/* SECTIONS */
+section{
+  padding:70px 40px;
+  text-align:center;
+}
+
+section h2{
+  margin-bottom:30px;
+  font-size:28px;
+  color:#0a2540;
+}
+
+/* SERVICES */
+.services{
+  display:flex;
+  gap:25px;
+  justify-content:center;
+  flex-wrap:wrap;
+}
+
+.card{
+  background:white;
+  padding:25px;
+  width:260px;
+  border-radius:15px;
+  box-shadow:0 8px 25px rgba(0,0,0,0.1);
+  transition:0.3s;
+  text-align:left;
+  line-height:1.6;
+}
+
+.card:hover{
+  transform:translateY(-10px);
+}
+
+.card h3{
+  margin-bottom:10px;
+}
+
+/* TESTIMONIALS */
+.testimonials{
+  background:#f9fbfd;
+}
+
+.testimonial-container{
+  display:flex;
+  gap:25px;
+  justify-content:center;
+  flex-wrap:wrap;
+}
+
+.testimonial-card{
+  background:white;
+  padding:25px;
+  width:280px;
+  border-radius:15px;
+  box-shadow:0 8px 25px rgba(0,0,0,0.08);
+  transition:0.3s;
+  font-style:italic;
+}
+
+.testimonial-card:hover{
+  transform:translateY(-8px);
+}
+
+.testimonial-card h4{
+  margin-top:15px;
+  font-style:normal;
+  color:#0a2540;
+}
+
+/* CONTACT */
+.contact{
+  background:#0a2540;
+  color:white;
+}
+
+.contact-box{
+  max-width:500px;
+  margin:20px auto;
+  display:flex;
+  flex-direction:column;
+  gap:15px;
+}
+
+.contact-box input,
+.contact-box textarea{
+  padding:12px;
+  border:none;
+  border-radius:8px;
+}
+
+.contact-box textarea{
+  height:120px;
+}
+
+.contact-box button{
+  background:#ff6600;
+  border:none;
+  padding:12px;
+  color:white;
+  cursor:pointer;
+  border-radius:8px;
+  font-weight:600;
+}
+
+.stats{
+  display:flex;
+  justify-content:center;
+  gap:30px;
+  padding:40px;
+  background:white;
+  font-weight:600;
+}
+
+/* FOOTER */
+footer{
+  background:#081a2f;
+  color:white;
+  text-align:center;
+  padding:20px;
+  font-size:14px;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <h2>🚚 SwiftShip</h2>
+  <nav>
+    <a href="#">Home</a>
+    <a href="track.html">Track</a>
+    <a href="#services">Services</a>
+    <a href="#contact">Contact</a>
+  </nav>
+</header>
+
+<!-- HERO -->
+<div class="hero">
+  <h1>Fast & Reliable Shipping</h1>
+  <p>Delivering your packages safely across the world</p>
+  <a href="track.html">
+    <button>Track Shipment</button>
+  </a>
+</div>
+
+<section class="stats">
+  <div>🚚 5,000+ Deliveries</div>
+  <div>🌍 20+ Countries</div>
+  <div>⏱ 24/7 Tracking</div>
+  <div>😊 1,000+ Happy Clients</div>
+</section>
+
+<!-- SERVICES -->
+<section id="services">
+  <h2>Our Services</h2>
+
+  <div class="services">
+    <div class="card">
+      <h3>📦 Local Delivery</h3>
+      <p>Quick delivery within your city.</p>
+    </div>
+
+    <div class="card">
+      <h3>🌍 International Shipping</h3>
+      <p>Global shipping with trusted partners.</p>
+    </div>
+
+    <div class="card">
+      <h3>⚡ Express Delivery</h3>
+      <p>Fastest delivery option available.</p>
+    </div>
+
+    <div class="card">
+      <h3>🔒 Secure Handling</h3>
+      <p>We protect your packages at every step.</p>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testimonials">
+  <h2>What Our Clients Say</h2>
+
+  <div class="testimonial-container">
+
+    <div class="testimonial-card">
+      <p>"SwiftShip delivered my package faster than expected. Very reliable service!"</p>
+      <h4>— Kwame Mensah</h4>
+      <p>⭐⭐⭐⭐⭐</p>
+    </div>
+
+    <div class="testimonial-card">
+      <p>"Excellent customer service and secure delivery. I highly recommend them."</p>
+      <h4>— Ama Serwaa</h4>
+      <p>⭐⭐⭐⭐⭐</p>
+    </div>
+
+    <div class="testimonial-card">
+      <p>"Tracking was easy and accurate. I knew exactly where my package was."</p>
+      <h4>— John Doe</h4>
+      <p>⭐⭐⭐⭐⭐</p>
+    </div>
+
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact" id="contact">
+  <h2>Contact Us</h2>
+  <p>We are here to help you anytime</p>
+
+  <div class="contact-box">
+    <input type="text" placeholder="Your Name">
+    <input type="email" placeholder="Your Email">
+    <textarea placeholder="Your Message"></textarea>
+    <button>Send Message</button>
+  </div>
+    <p>📍 Accra, Ghana</p>
+    <p>📞 +233 24 000 0000</p>
+    <p>📧 swiftship@email.com</p>
+</section>
+
+<footer>
+  <p>© 2026 SwiftShip Logistics | All Rights Reserved</p>
+</footer>
+
+</body>
+</html>

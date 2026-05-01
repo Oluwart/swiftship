@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SwiftShip Admin</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:'Poppins', sans-serif;
+}
+
+body{
+  background:#f4f6f9;
+}
+
+/* TOP NAV */
+.topbar{
+  background:white;
+  padding:15px 30px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  box-shadow:0 2px 10px rgba(0,0,0,0.05);
+}
+
+.topbar h2{
+  color:#0a2540;
+}
+
+.topbar button{
+  background:#ff6600;
+  border:none;
+  color:white;
+  padding:10px 15px;
+  border-radius:8px;
+  cursor:pointer;
+}
+
+/* CONTAINER */
+.container{
+  max-width:1100px;
+  margin:30px auto;
+  padding:20px;
+}
+
+/* CARD */
+.card{
+  background:white;
+  padding:25px;
+  border-radius:15px;
+  box-shadow:0 10px 25px rgba(0,0,0,0.08);
+  margin-bottom:20px;
+}
+
+/* GRID */
+.grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+}
+
+input{
+  width:100%;
+  padding:12px;
+  margin:6px 0;
+  border-radius:8px;
+  border:1px solid #ddd;
+}
+
+/* BUTTONS */
+.btn-save{
+  width:100%;
+  background:#ff6600;
+  margin-top:10px;
+  padding:12px;
+  border:none;
+  border-radius:8px;
+  color:white;
+  font-weight:600;
+  cursor:pointer;
+}
+
+.edit{ 
+    background:#027516; 
+    color: white;
+    width: 50px;
+    border-radius: 10px;
+  }
+.delete{ 
+    background:#d10b04;
+    color: white;
+    width: 70px;
+    border-radius: 10px;
+   }
+
+.actions{
+  display:flex;
+  gap:5px;
+}
+
+/* SHIPMENT LIST */
+.shipment{
+  padding:15px;
+  border-radius:10px;
+  background:#fff;
+  margin-bottom:10px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  border:1px solid #eee;
+}
+
+.small{
+  font-size:12px;
+  color:#666;
+}
+
+/* LOGIN */
+.login-box{
+  max-width:400px;
+  margin:100px auto;
+  background:white;
+  padding:30px;
+  border-radius:15px;
+  box-shadow:0 10px 30px rgba(0,0,0,0.1);
+}
+
+.hidden{ display:none; }
+</style>
+</head>
+
+<body>
+
+<!-- LOGIN -->
+<div id="loginPage" class="login-box">
+  <h2 style="text-align:center;">🔐 Admin Login</h2>
+  <input type="text" id="username" placeholder="Username">
+  <input type="password" id="password" placeholder="Password">
+  <button class="btn-save" onclick="login()">Login</button>
+</div>
+
+<!-- ADMIN -->
+<div id="adminPage" class="hidden">
+
+  <div class="topbar">
+    <h2>🚀 SwiftShip Admin</h2>
+    <button onclick="logout()">Logout</button>
+  </div>
+
+  <div class="container">
+
+    <!-- FORM -->
+    <div class="card">
+      <h3>Create / Edit Shipment</h3>
+
+      <input type="text" id="trackingId" placeholder="Tracking ID (SS1001)">
+
+      <h4>Sender</h4>
+      <div class="grid">
+        <input type="text" id="senderName" placeholder="Name">
+        <input type="text" id="senderPhone" placeholder="Phone">
+      </div>
+      <input type="email" id="senderEmail" placeholder="Email">
+      <input type="text" id="senderAddress" placeholder="Address">
+
+      <h4>Receiver</h4>
+      <div class="grid">
+        <input type="text" id="receiverName" placeholder="Name">
+        <input type="text" id="receiverPhone" placeholder="Phone">
+      </div>
+      <input type="text" id="receiverAddress" placeholder="Address">
+
+      <h4>Package</h4>
+      <div class="grid">
+        <input type="text" id="item" placeholder="Item">
+        <input type="text" id="weight" placeholder="Weight">
+      </div>
+      <input type="text" id="value" placeholder="Value">
+
+      <h4>Tracking Update</h4>
+      <input type="text" id="status" placeholder="Status (e.g In Transit)">
+      <input type="text" id="location" placeholder="Location (e.g Accra)">
+      <input type="date" id="date">
+
+      <button class="btn-save" onclick="addShipment()">Save Shipment</button>
+    </div>
+
+    <!-- LIST -->
+    <div class="card">
+      <h3>📦 Shipments</h3>
+      <input type="text" id="searchInput" placeholder="Search..." onkeyup="searchShipments()">
+      <div id="shipmentList"></div>
+    </div>
+
+  </div>
+</div>
+
+
+<script>
+
+// LOGIN
+function login(){
+  const user = username.value;
+  const pass = password.value;
+
+  fetch("http://localhost:3000/login", {
+    method:"POST",
+    headers:{"Content-Type":"application/json"},
+    body: JSON.stringify({username:user,password:pass})
+  })
+  .then(res=>res.json())
+  .then(data=>{
+    if(data.token){
+      localStorage.setItem("token", data.token);
+      showAdmin();
+    }else{
+      alert("Invalid login ❌");
+    }
+  });
+}
+
+// SHOW ADMIN
+function showAdmin(){
+  loginPage.classList.add("hidden");
+  adminPage.classList.remove("hidden");
+  loadShipments();
+}
+
+// LOGOUT ✅ FIXED
+function logout(){
+  localStorage.removeItem("token");
+
+  adminPage.classList.add("hidden");
+  loginPage.classList.remove("hidden");
+
+  alert("Logged out 👋");
+}
+
+// AUTO LOGIN
+if(localStorage.getItem("token")){
+  showAdmin();
+}
+
+// SAFE FETCH (AUTO LOGOUT ON EXPIRE)
+function safeFetch(url, options={}){
+  return fetch(url, options).then(res=>{
+    if(res.status === 401){
+      logout();
+      throw new Error("Session expired");
+    }
+    return res.json();
+  });
+}
+
+// SAVE
+function addShipment(){
+
+  const id = trackingId.value.toUpperCase().trim();
+  if(!id) return alert("Enter Tracking ID");
+
+  const status = document.getElementById("status").value.trim() || "Processing";
+  const location = document.getElementById("location").value.trim() || "Unknown";
+  const date = document.getElementById("date").value || new Date().toISOString().split('T')[0];
+
+  const data = {
+    sender:{
+      name: senderName.value || "N/A",
+      phone: senderPhone.value || "N/A",
+      email: senderEmail.value || "N/A",
+      address: senderAddress.value || "N/A"
+    },
+    receiver:{
+      name: receiverName.value || "N/A",
+      phone: receiverPhone.value || "N/A",
+      address: receiverAddress.value || "N/A"
+    },
+    package:{
+      item: item.value || "N/A",
+      weight: weight.value || "N/A",
+      value: value.value || "N/A"
+    },
+    update:{ status, location, date }
+  };
+
+  safeFetch("http://localhost:3000/shipment", {
+    method:"POST",
+    headers:{
+      "Content-Type":"application/json",
+      "Authorization":"Bearer " + localStorage.getItem("token")
+    },
+    body: JSON.stringify({id, data})
+  })
+  .then(d=>{
+    alert(d.message);
+    document.querySelectorAll("input").forEach(i=>i.value="");
+    loadShipments();
+  });
+}
+
+// LOAD
+function loadShipments(){
+  safeFetch("http://localhost:3000/shipments", {
+    headers:{
+      "Authorization":"Bearer " + localStorage.getItem("token")
+    }
+  })
+  .then(renderShipments)
+  .catch(()=>alert("Failed to load ❌"));
+}
+
+// RENDER
+function renderShipments(data){
+  shipmentList.innerHTML = "";
+
+  for(let id in data){
+    const s = data[id];
+
+    shipmentList.innerHTML += `
+      <div class="shipment">
+        <div>
+          <strong>${id}</strong><br>
+          <span class="small">${s.sender.name} → ${s.receiver.name}</span><br>
+          <span class="small">${s.package.item}</span>
+        </div>
+        <div class="actions">
+          <button class="edit" onclick="editShipment('${id}')">Edit</button>
+          <button class="delete" onclick="deleteShipment('${id}')">Delete</button>
+        </div>
+      </div>
+    `;
+  }
+}
+
+// EDIT
+function editShipment(id){
+  fetch("http://localhost:3000/shipment/"+id)
+  .then(res=>res.json())
+  .then(s=>{
+    trackingId.value=id;
+    senderName.value=s.sender.name;
+    senderPhone.value=s.sender.phone;
+    senderEmail.value=s.sender.email;
+    senderAddress.value=s.sender.address;
+    receiverName.value=s.receiver.name;
+    receiverPhone.value=s.receiver.phone;
+    receiverAddress.value=s.receiver.address;
+    item.value=s.package.item;
+    weight.value=s.package.weight;
+    value.value=s.package.value;
+  });
+}
+
+// DELETE
+function deleteShipment(id){
+  if(!confirm("Delete shipment?")) return;
+
+  safeFetch("http://localhost:3000/shipment/"+id,{
+    method:"DELETE",
+    headers:{
+      "Authorization":"Bearer " + localStorage.getItem("token")
+    }
+  })
+  .then(d=>{
+    alert(d.message);
+    loadShipments();
+  });
+}
+
+// SEARCH
+function searchShipments(){
+  const q = searchInput.value.toUpperCase();
+
+  safeFetch("http://localhost:3000/shipments",{
+    headers:{
+      "Authorization":"Bearer " + localStorage.getItem("token")
+    }
+  })
+  .then(data=>{
+    const f={};
+    for(let id in data){
+      if(id.includes(q)) f[id]=data[id];
+    }
+    renderShipments(f);
+  });
+}
+
+</script>
+
+</body>
+</html>
