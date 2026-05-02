@@ -16,8 +16,10 @@ app.use(express.json());
 // =======================
 // 🟢 CONNECT MONGODB
 // =======================
-mongoose.connect("https://swiftship-backend-a1uy.onrender.com")
-  .then(() => console.log("MongoDB Connected ✅"))
+mongodb+srv://rashidabdul06_db_user:bNvc9ROCH43EyFW3@swiftship-cluster.tlzfjq8.mongodb.net/?appName=swiftship-cluster/swiftship
+
+mongoose.connect("mongodb+srv://rashidabdul06_db_user:bNvc9ROCH43EyFW3@cluster-url/swiftship")
+  .then(() => console.log("MongoDB Atlas Connected ✅"))
   .catch(err => console.log(err));
 
 // =======================
