@@ -208,10 +208,10 @@ input{
 function login(){
   const user = username.value;
   const pass = password.value;
-
-  fetch("http://localhost:3000/login", {
-    method:"POST",
-    headers:{"Content-Type":"application/json"},
+  
+  fetch("https://swiftship-backend-a1uy.onrender.com/login", {
+    method: "POST",
+    headers:{"Content-Type": "application/json"},
     body: JSON.stringify({username:user,password:pass})
   })
   .then(res=>res.json())
@@ -288,7 +288,7 @@ function addShipment(){
     update:{ status, location, date }
   };
 
-  safeFetch("http://localhost:3000/shipment", {
+  safeFetch("https://swiftship-backend-a1uy.onrender.com/shipment", {
     method:"POST",
     headers:{
       "Content-Type":"application/json",
@@ -305,7 +305,7 @@ function addShipment(){
 
 // LOAD
 function loadShipments(){
-  safeFetch("http://localhost:3000/shipments", {
+  safeFetch("https://swiftship-backend-a1uy.onrender.com/shipments", {
     headers:{
       "Authorization":"Bearer " + localStorage.getItem("token")
     }
@@ -339,7 +339,7 @@ function renderShipments(data){
 
 // EDIT
 function editShipment(id){
-  fetch("http://localhost:3000/shipment/"+id)
+  fetch("https://swiftship-backend-a1uy.onrender.com/shipment/"+id)
   .then(res=>res.json())
   .then(s=>{
     trackingId.value=id;
@@ -360,8 +360,8 @@ function editShipment(id){
 function deleteShipment(id){
   if(!confirm("Delete shipment?")) return;
 
-  safeFetch("http://localhost:3000/shipment/"+id,{
-    method:"DELETE",
+  safeFetch("https://swiftship-backend-a1uy.onrender.com/shipment/"+id,{
+    method: "DELETE",
     headers:{
       "Authorization":"Bearer " + localStorage.getItem("token")
     }
@@ -376,7 +376,7 @@ function deleteShipment(id){
 function searchShipments(){
   const q = searchInput.value.toUpperCase();
 
-  safeFetch("http://localhost:3000/shipments",{
+  safeFetch("https://swiftship-backend-a1uy.onrender.com/shipments",{
     headers:{
       "Authorization":"Bearer " + localStorage.getItem("token")
     }
